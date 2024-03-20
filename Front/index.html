@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="device-width, initial-scale=1.0">
+    <Link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+    <script defer src="../JavaScript/script.js"></script>
+    <title>EduBite</title>
+</head>
+<body>
+<header>
+    <div>
+        <h1>EduBite</h1>
+        <nav class="menu">
+        <ul>
+            <li>Home</li>
+            <li>Favorites</li>
+            <li>Profile</li>
+        </ul>
+    </nav>
+    </div>
+    <div>
+    <form class="login">
+        <label for="usernameField">Email</label>
+        <input type="text" id="usernameField" name="username" placeholder="Username">
+        <label for="passwordField">Password</label>
+        <input type="password" id="passwordField" name="password" placeholder="Password">
+        <button type="submit" id="loginButton"  name="Login">Login</button>
+    </form>
+    <div class="register">
+        <button type="button" id="registerButton" name="Register">Register</button>
+    </div>
+    </div>
+
+</header>
+    <div class="restaurantContainer">
+        <section class="restaurants">
+            <h4>Restaurants nearby</h4>
+            <ol>
+                <li>Here is restaurants</li>
+            </ol>
+        </section>
+        <div id="map"></div>
+        <section class="restaurantMenu">
+            <h4>Restaurant menu</h4>
+            <div id="restaurantMenu"></div>
+        </section>
+    </div>
+</body>
+</html>
