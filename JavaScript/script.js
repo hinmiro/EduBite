@@ -52,7 +52,6 @@ let form = document.createElement('form');
 form.classList.add('login');
 
 
-
 const registerDiv = document.createElement('div');
 registerDiv.classList.add('registerDiv');
 
@@ -92,6 +91,8 @@ registerModal.classList.add('registerModal');
 
 const registerContainer = document.createElement('form');
 registerContainer.classList.add('registerContainer');
+registerContainer.setAttribute('method', 'POST');
+registerContainer.setAttribute('enctype', 'multipart/form-data');
 
 const usernameDiv = document.createElement('div');
 const usernameLabel = document.createElement('label');
@@ -134,10 +135,24 @@ const registerButton = document.createElement('button');
 registerButton.setAttribute('id', 'registerButton');
 registerButton.textContent = 'Register';
 
+const registerAvatarDiv = document.createElement('div');
+const registerAvatarLabel = document.createElement('label');
+registerAvatarLabel.setAttribute('type', 'text');
+registerAvatarLabel.textContent = 'Profile img';
+registerAvatarLabel.classList.add('avatar');
+
+const registerAvatar = document.createElement('input');
+registerAvatar.setAttribute('type', 'file');
+registerAvatar.setAttribute('id', 'registerAvatar');
+registerAvatar.setAttribute('name', 'avatar');
+registerAvatar.classList.add('avatar');
+registerAvatarDiv.appendChild(registerAvatar);
+
 
 registerContainer.appendChild(usernameDiv);
 registerContainer.appendChild(registerEmailDiv);
 registerContainer.appendChild(registerPassDiv);
+registerContainer.appendChild(registerAvatarDiv);
 registerContainer.appendChild(registerButton);
 registerModal.appendChild(closeButton);
 registerModal.appendChild(registerContainer);
@@ -145,6 +160,39 @@ document.body.appendChild(registerModal);
 
 
 // Event listeners
+registerButton.addEventListener('click', async event => {
+    event.preventDefault();
+    const username = usernameInput.value;
+    const email = regEmailInput.value;
+    const password = registerPassInput.value;
+    if (!isUsernameTaken(username)) {
+        console.log('Username not available');
+    }
+
+    const data = {
+        body: JSON.stringify({
+            "name": usernameInput.value,
+            "password": registerPassInput.value,
+            "email": regEmailInput
+        }),
+        methdod: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+        },
+    }
+
+    try {
+        const response = await fetch('https://10.120.32.94/restaurant/api/v1/users', data);
+        const json = await response.json();
+        console.log(json);
+    } catch (e) {
+        console.log('Error ', e);
+    }
+});
+
+loginButton.addEventListener('click', async event => {
+    event.preventDefault();
+})
 
 registerLabel.addEventListener('click', (event) => {
     event.preventDefault();
@@ -152,7 +200,7 @@ registerLabel.addEventListener('click', (event) => {
     registerModal.style.display = 'flex';
 });
 
-closeButton.addEventListener('click', ()=> {
+closeButton.addEventListener('click', () => {
     registerModal.style.display = 'none';
 });
 
@@ -166,12 +214,30 @@ closeButton.addEventListener('click', function () {
 });
 
 
+// functions
 
+async function isUsernameTaken(username) {
+    try {
+        const response = await fetch(`https://10.120.32.94/restaurant/api/v1/users/available/:${username}`);
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error', error);
+    }
+}
+
+async function getRestaurants() {
+    const response = await fetch("https://10.120.32.94/restaurant/api/v1/restaurants");
+    return await response.json();
+}
 
 //Leaflet map
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', async event => {
     event.preventDefault();
+    const restaurants = await getRestaurants();
+    console.log(restaurants);
     const map = L.map('map').setView([60.18, 24.94], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -193,4 +259,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     } else {
         console.log('Location found')
     }
+
+    restaurants.forEach(r => {
+        const foodPin = L.icon({
+            iconUrl: 'img/foodPinni.png',
+            iconSize: [100, 100],
+            iconAnchor: [50, 70]
+        });
+        L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: foodPin}).addTo(map);
+    })
 });

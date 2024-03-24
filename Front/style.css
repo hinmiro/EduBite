@@ -169,6 +169,7 @@ h4 {
     overflow: auto;
 }
 #registerButton {
+    margin-top: 20%;
     width: 30%;
 
 }
@@ -176,8 +177,19 @@ h4 {
 .registerContainer {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     width: 100%;
+}
+
+.registerContainer label {
+    margin-right: 1rem;
+}
+
+.registerContainer input {
+    margin-right: 5rem;
+}
+
+.avatar {
 }
 
 .registerContainer div {
@@ -191,6 +203,47 @@ h4 {
 #registerLabel:hover {
     color: #A6C48A;
     cursor: pointer;
+}
+
+.profileContainer ul {
+    list-style-type: none;
+}
+
+.profileContainer ul li {
+    margin-bottom: 1%;
+}
+
+.submitDialog {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    width: 40%;
+    background-color: #517d9e;
+}
+
+.submitDialog button {
+    width: 20%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 1%;
+}
+
+.submitDialog span {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.profileForm label {
+    margin-right: 4rem;
+}
+
+.profileForm input {
+    margin-top: 10px;
+    width: 100%;
 }
 
 

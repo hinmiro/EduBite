@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <Link rel="stylesheet" type="text/css" href="style.css">
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <link rel="stylesheet" href="css/leaflet.awesome-markers.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 
-    <script defer src="../JavaScript/script.js"></script>
+    <script defer src="../JavaScript/profileScript.js"></script>
     <title>EduBite</title>
 </head>
 <body>
@@ -19,9 +17,9 @@
         <h1>EduBite</h1>
         <nav class="menu">
             <ul>
-                <li>Home</li>
+                <li><a href="index.html">Home</a></li>
                 <li>Favorites</li>
-                <li>Profile</li>
+                <li><a href="profile.html">Profile</a></li>
             </ul>
         </nav>
     </div>
@@ -30,20 +28,16 @@
             <button type="submit" id="loginButton"  name="Login">Login</button>
         </form>
     </div>
-
 </header>
+<form class="profileContainer">
+    <ul class="ulProfile">
+        <li>Username: <button class="changeButton" id="username">Change</button></li>
+        <li>Email: <button class="changeButton" id="email">Change</button> </li>
+        <li>Password: <button class="changeButton" id="password">Change</button> </li>
+    </ul>
+</form>
 <div class="restaurantContainer">
-    <section class="restaurants">
-        <h4>Restaurants nearby</h4>
-        <ol>
-            <li>Here is restaurants</li>
-        </ol>
-    </section>
     <div id="map"></div>
-    <section class="restaurantMenu">
-        <h4>Restaurant menu</h4>
-        <div id="restaurantMenu"></div>
-    </section>
 </div>
 </body>
 </html>
