@@ -247,6 +247,45 @@ h4 {
 }
 
 
+.menuTable {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}
+
+table th {
+    padding: 1rem;
+}
+
+#dailyLink {
+    cursor: pointer;
+}
+
+#dailyLink:hover {
+    color: darkred;
+}
+
+#weeklyLink {
+    cursor: pointer;
+}
+
+#weeklyLink:hover {
+    color: darkred;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    color: #A6C48A;
+}
+
+
+
+
+
 @media (max-width: 500px) {
     section {
         width: 50%;

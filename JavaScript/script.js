@@ -48,7 +48,7 @@ let closeButton = document.createElement('span');
 closeButton.classList.add('close');
 closeButton.innerHTML = '&times;';
 
-let form = document.createElement('form');
+const form = document.createElement('form');
 form.classList.add('login');
 
 
@@ -158,6 +158,16 @@ registerModal.appendChild(closeButton);
 registerModal.appendChild(registerContainer);
 document.body.appendChild(registerModal);
 
+// Menu
+
+const menuTable = document.querySelector('.menuTable');
+const dailyDiv = document.createElement('div');
+const weeklyDiv = document.createElement('div');
+let dailyMenu = null;
+let weeklyMenu = null;
+const dailyLink = document.querySelector('#dailyLink');
+const weeklyLink = document.querySelector('#weeklyLink');
+
 
 // Event listeners
 registerButton.addEventListener('click', async event => {
@@ -232,6 +242,76 @@ async function getRestaurants() {
     return await response.json();
 }
 
+
+async function getMenu(id) {
+    console.log(id);
+
+    const daily = await fetch(`https://10.120.32.94/restaurant/api/v1/restaurants/daily/${id}/en`);
+    const dataDaily = await daily.json();
+    const weekly = await fetch(`https://10.120.32.94/restaurant/api/v1/restaurants/weekly/${id}/en`);
+    const dataWeekly = await weekly.json();
+    ;
+    dailyMenu = dataDaily.courses;
+    weeklyMenu = dataWeekly.days;
+
+    console.log('Daily menu: ', dailyMenu);
+    console.log('Weekly menu: ', weeklyMenu)
+}
+
+dailyLink.addEventListener('click', event => {
+    event.preventDefault();
+    menuTable.innerHTML = '';
+    setMenuDaily(dailyMenu);
+    dailyDiv.style.display = 'flex';
+    weeklyDiv.style.display = 'none';
+});
+
+weeklyLink.addEventListener('click', event => {
+    event.preventDefault();
+    menuTable.innerHTML = '';
+    setMenuWeekly(weeklyMenu);
+    weeklyDiv.style.display = 'flex';
+    dailyDiv.style.display = 'none';
+});
+
+function setMenuDaily(daily) {
+    document.querySelector('.menuTable').innerHTML = '';
+
+    if (daily.length > 0) {
+        daily.forEach(item => {
+            const newRow = document.createElement('tr');
+            const menuItem = document.createElement('td');
+            menuItem.textContent = item.name;
+            newRow.appendChild(menuItem);
+            menuTable.appendChild(newRow);
+        });
+    } else if (daily.length === 0) {
+        const newRow = document.createElement('tr');
+        const menuItem = document.createElement('td');
+        menuItem.textContent = 'No menu available today';
+        newRow.appendChild(menuItem);
+        menuTable.appendChild(newRow);
+    }
+}
+
+function setMenuWeekly(weekly) {
+    weekly.forEach(day => {
+        const weekDay = document.createElement('th');
+        const newRow = document.createElement('tr');
+        weekDay.textContent = `${day.date}`;
+        newRow.appendChild(weekDay)
+        menuTable.appendChild(newRow);
+        day.courses.forEach(item => {
+            const newRow = document.createElement('tr');
+            const meal = document.createElement('td');
+            console.log(item.name);
+            meal.textContent = item.name;
+            newRow.appendChild(meal);
+            menuTable.appendChild(newRow);
+        })
+    });
+};
+
 //Leaflet map
 
 document.addEventListener('DOMContentLoaded', async event => {
@@ -246,13 +326,16 @@ document.addEventListener('DOMContentLoaded', async event => {
     const myPlace = L.icon({
         iconUrl: 'img/gif3.gif',
         iconSize: [60, 60],
-        iconAnchor: [25, 50]
+        iconAnchor: [25, 50],
+        popupAnchor: [5, -30]
     });
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
             map.setView([position.coords.latitude, position.coords.longitude], 13);
-            L.marker([position.coords.latitude, position.coords.longitude], {icon: myPlace}).addTo(map);
+            L.marker([position.coords.latitude, position.coords.longitude], {icon: myPlace})
+                .bindPopup('<b>You are here</b>')
+                .addTo(map);
         }, (error) => {
             console.error('Cannot get location', error);
         });
@@ -264,8 +347,17 @@ document.addEventListener('DOMContentLoaded', async event => {
         const foodPin = L.icon({
             iconUrl: 'img/foodPinni.png',
             iconSize: [100, 100],
-            iconAnchor: [50, 70]
+            iconAnchor: [50, 70],
+            popupAnchor: [0, -35]
+
         });
-        L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: foodPin}).addTo(map);
+        const markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: foodPin})
+            .bindPopup(`<b>${r.name}</b><br>${r.address}<br>${r.city}<br>`)
+            .addTo(map);
+
+        markerFood.on('click', async event => {
+            menuTable.innerHTML = '';
+            await getMenu(r._id);
+        })
     })
 });
