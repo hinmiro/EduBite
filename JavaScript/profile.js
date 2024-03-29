@@ -1,7 +1,8 @@
 'use strict';
 
 //Setup
-
+const userToken = localStorage.getItem('token');
+console.log(userToken);
 const changeButton = document.querySelector('.changeButton');
 const submitChange = document.createElement('button');
 submitChange.textContent = 'Submit';

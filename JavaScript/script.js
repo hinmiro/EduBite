@@ -1,5 +1,9 @@
 'use strict';
 
+
+
+
+
 // Login modal
 const emailDiv = document.createElement('div');
 emailDiv.classList.add('input-group');
@@ -168,6 +172,21 @@ let weeklyMenu = null;
 const dailyLink = document.querySelector('#dailyLink');
 const weeklyLink = document.querySelector('#weeklyLink');
 
+// Restaurants nearby
+const sorts = document.createElement('div');
+sorts.classList.add('sorts');
+const spanName = document.createElement('span');
+const spanDistance = document.createElement('span');
+const nearbyTable = document.querySelector('.nearbyRestaurants');
+const nameHeader = document.createElement('th');
+nameHeader.textContent = 'Name';
+const sortHeader = document.createElement('th');
+sortHeader.textContent = 'Distance';
+
+// Login
+let userToken = null;
+
+
 
 // Event listeners
 registerButton.addEventListener('click', async event => {
@@ -175,26 +194,26 @@ registerButton.addEventListener('click', async event => {
     const username = usernameInput.value;
     const email = regEmailInput.value;
     const password = registerPassInput.value;
-    if (!isUsernameTaken(username)) {
+    if (!await isUsernameTaken(username)) {
         console.log('Username not available');
     }
 
     const data = {
         body: JSON.stringify({
-            "name": usernameInput.value,
-            "password": registerPassInput.value,
-            "email": regEmailInput
+            username: username,
+            password: password,
+            email: email,
         }),
-        methdod: 'POST',
+        method: 'POST',
         headers: {
             'Content-type': 'application/json',
         },
     }
-
     try {
         const response = await fetch('https://10.120.32.94/restaurant/api/v1/users', data);
         const json = await response.json();
         console.log(json);
+        if (response.ok) registerModal.style.display = 'none';
     } catch (e) {
         console.log('Error ', e);
     }
@@ -202,6 +221,27 @@ registerButton.addEventListener('click', async event => {
 
 loginButton.addEventListener('click', async event => {
     event.preventDefault();
+    const username = document.querySelector('#modalUsernameField');
+    const password = document.querySelector('#modalPasswordField');
+    const payload = {
+        body: JSON.stringify({
+            username: username.value,
+            password: password.value,
+        }),
+        method: 'POST',
+        headers: {'Content-type': 'application/json'},
+    }
+
+    const response = await fetch('https://10.120.32.94/restaurant/api/v1/auth/login', payload);
+    if (!response.ok) throw new Error('Invalid login credentials');
+    try {
+        const data = await response.json();
+        userToken = data.token;
+        localStorage.setItem('token', userToken);
+        loginModal.style.display = 'none';
+    } catch (e) {
+        console.error('Parsing error:', e);
+    }
 })
 
 registerLabel.addEventListener('click', (event) => {
@@ -226,12 +266,88 @@ closeButton.addEventListener('click', function () {
 
 // functions
 
+function showRestaurantList(posLat, posLon, restaurants) {
+    console.log(posLat, posLon)
+    console.log('restaurants:', restaurants);
+
+
+    restaurants.forEach((r) => {
+        const rLat = r.location.coordinates[1];
+        const rLon = r.location.coordinates[0];
+
+        const dLat = deg2rad(rLat - posLat);
+        const dLon = deg2rad(rLon - posLon);
+
+        // Calculation to get distance in km from point to point with Haversine formula
+
+        const a =
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(deg2rad(posLat)) * Math.cos(deg2rad(rLat)) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        const d = 6371 * c;
+
+        r.distance = d;
+    })
+
+
+
+    nameHeader.addEventListener('click', (event) => {
+        event.preventDefault();
+        const sortedRestaurants = [...restaurants].sort((a, b) =>
+        a.name.toLowerCase().trim().localeCompare(b.name.toLowerCase().trim()))
+        renderRestaurants(sortedRestaurants);
+    });
+
+    sortHeader.addEventListener('click', (event) => {
+        event.preventDefault();
+        const sortedRestaurants = [...restaurants].sort((a, b) => a.distance - b.distance);
+        console.log('sorted:', sortedRestaurants);
+        renderRestaurants(sortedRestaurants);
+    });
+
+    renderRestaurants(restaurants);
+}
+
+function renderRestaurants(restaurants) {
+    nearbyTable.innerHTML = '';
+    spanName.appendChild(nameHeader);
+    spanDistance.appendChild(sortHeader);
+    sorts.append(spanName, spanDistance);
+    nearbyTable.append(sorts);
+    restaurants.forEach((r) => {
+        const newRow = document.createElement('tr');
+        const name = document.createElement('td');
+        const distance = document.createElement('td');
+        name.textContent = r.name;
+        distance.textContent = `${r.distance.toFixed(2)} km`;
+        newRow.append(name, distance);
+        nearbyTable.append(newRow);
+    })
+}
+
+
+function deg2rad(deg) {
+    return deg * (Math.PI/180);
+}
+
+async function getUserData(token) {
+    const response = await fetch(`https://10.120.32.94/restaurant/api/v1/users/${token}`);
+    if (!response.ok) throw new Error(`Http error: ${response.status}`);
+    try {
+        return await response.json();
+    } catch (e) {
+        console.error('Parsing error:', e);
+    }
+}
+
 async function isUsernameTaken(username) {
     try {
-        const response = await fetch(`https://10.120.32.94/restaurant/api/v1/users/available/:${username}`);
+        const response = await fetch(`https://10.120.32.94/restaurant/api/v1/users/available/${username}`);
         const data = await response.json();
         console.log(data);
-        return data;
+        return data.available;
     } catch (error) {
         console.error('Error', error);
     }
@@ -332,6 +448,7 @@ document.addEventListener('DOMContentLoaded', async event => {
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
+            showRestaurantList(position.coords.latitude, position.coords.longitude, restaurants);
             map.setView([position.coords.latitude, position.coords.longitude], 13);
             L.marker([position.coords.latitude, position.coords.longitude], {icon: myPlace})
                 .bindPopup('<b>You are here</b>')

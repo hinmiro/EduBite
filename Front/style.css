@@ -142,6 +142,8 @@ section {
     width: 100%;
     border-style: ridge;
     border-color: #A6C48A;
+    height: 61vh;
+    overflow: auto;
 }
 
 h4 {
@@ -252,7 +254,6 @@ h4 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: auto;
 }
 
 table th {
@@ -282,8 +283,28 @@ table th {
     color: #A6C48A;
 }
 
+.nearbyRestaurants {
+    height: 100%;
+}
 
+.nearbyRestaurants th {
+    text-align: left;
+}
 
+.nearbyRestaurants td {
+
+}
+
+.sorts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.sorts span:hover {
+    cursor: pointer;
+    color: darkred;
+}
 
 
 @media (max-width: 500px) {
