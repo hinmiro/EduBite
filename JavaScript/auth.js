@@ -176,24 +176,10 @@ const registerButton = document.createElement('button');
 registerButton.setAttribute('id', 'registerButton');
 registerButton.textContent = 'Register';
 
-const registerAvatarDiv = document.createElement('div');
-const registerAvatarLabel = document.createElement('label');
-registerAvatarLabel.setAttribute('type', 'text');
-registerAvatarLabel.textContent = 'Profile img';
-registerAvatarLabel.classList.add('avatar');
-
-const registerAvatar = document.createElement('input');
-registerAvatar.setAttribute('type', 'file');
-registerAvatar.setAttribute('id', 'registerAvatar');
-registerAvatar.setAttribute('name', 'avatar');
-registerAvatar.classList.add('avatar');
-registerAvatarDiv.appendChild(registerAvatar);
-
 
 registerContainer.appendChild(usernameDiv);
 registerContainer.appendChild(registerEmailDiv);
 registerContainer.appendChild(registerPassDiv);
-registerContainer.appendChild(registerAvatarDiv);
 registerContainer.appendChild(registerButton);
 registerModal.appendChild(closeButtonAuth);
 registerModal.appendChild(registerContainer);
@@ -263,8 +249,8 @@ loginButtonScript.addEventListener('click', async event => {
         const userToken = data.token;
         localStorage.setItem('token', userToken);
         loginModal.style.display = 'none';
-        // Change the button text to 'Logout' after successful login
         loginButton.textContent = 'Logout';
+        location.reload();
     } catch (e) {
         console.error('Parsing error:', e);
     }
@@ -275,10 +261,9 @@ loginButtonScript.addEventListener('click', function (event) {
     event.preventDefault();
     const userToken = localStorage.getItem('token');
     if (userToken) {
-        // User is logged in, so log them out
         localStorage.clear();
+        location.reload();
     } else {
-        // User is not logged in, so show the login modal
         loginModal.style.display = 'flex';
     }
 });

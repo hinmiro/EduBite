@@ -22,8 +22,10 @@ document.addEventListener('DOMContentLoaded', async event => {
     const userToken = localStorage.getItem('token');
     console.log(userToken);
     if (!userToken) {
-        document.body.innerHTML = 'You are not logged in';
+        document.querySelector('.content').style.display = 'none';
+        document.querySelector('#loginMessage').style.display = 'flex';
     } else {
+        document.querySelector('#loginMessage').style.display = 'none';
         const userData = await getProfileData(userToken);
         console.log(userData);
         document.querySelector('#name').textContent = userData.username;
