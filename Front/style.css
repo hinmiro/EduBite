@@ -306,6 +306,11 @@ table th {
     color: darkred;
 }
 
+.profileTable {
+    display: flex;
+    flex-direction: row;
+}
+
 
 @media (max-width: 500px) {
     section {
