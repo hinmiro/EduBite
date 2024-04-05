@@ -28,13 +28,11 @@ document.addEventListener('DOMContentLoaded', async event => {
         document.querySelector('#loginMessage').style.display = 'none';
         const userData = await getProfileData(userToken);
         console.log(userData);
+        console.log(await constructAvatar(userData.avatar));
         document.querySelector('#name').textContent = userData.username;
         document.querySelector('#email').textContent = userData.email;
         document.querySelector('#favorite').textContent += userData.favorite;
-        document.querySelector('#avatar').src = userData.avatar;
-        //constructAvatar(userData.avatar);
         console.log(userData.avatar);
-
     }
 
 });
@@ -170,16 +168,6 @@ imageUpload.addEventListener('change', (event) => {
 
 
 async function constructAvatar(avatar) {
-    const response = await fetch(`https://10.120.32.94/restaurant/api/v1/users/avatar/uploads/a5e249578303a9b4a68438edafc7a02d`,  {
-        method: 'GET',
-        headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')},
-    });
-    if (!response.ok) throw new Error(`Http error: ${response.status}`);
-    try {
-        const userData = await response.json();
-        return userData;
-    } catch (e) {
-        console.error('Parsing error: ', e);
-    }
+        const imgEle = document.querySelector('#avatar');
+        imgEle.src = `https://10.120.32.94/restaurant/uploads/${avatar}`;
 }
-

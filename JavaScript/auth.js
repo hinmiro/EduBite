@@ -229,7 +229,8 @@ loginButton.addEventListener('click', (evt) => {
         loginModal.style.display = 'flex'
     }
 })
-// Event listener for the login button
+
+//  Event listener for the login button
 loginButtonScript.addEventListener('click', async event => {
     event.preventDefault();
     const username = document.querySelector('#modalUsernameField');

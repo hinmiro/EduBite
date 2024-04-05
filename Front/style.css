@@ -351,7 +351,10 @@ table th {
 .profileTable {
     display: flex;
     flex-direction: row;
+    border-collapse: separate;
+    border-spacing: 15rem 1rem;
 }
+
 
 .registerContainer {
     display: flex;
