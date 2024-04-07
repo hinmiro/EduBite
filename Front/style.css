@@ -372,7 +372,7 @@ table th {
     background-color: #5e5e5e21;
     border-radius: 20px;
 }
-    
+
 
 #loginButton {
     background-color: #aac2d1;
@@ -396,6 +396,16 @@ table th {
 #loginButton:hover {
     box-shadow: 0 0 .25rem rgba(255, 255, 255, 0.5), -.125rem -.125rem 1rem rgba(50, 106, 208, 0.657), .125rem .125rem 1rem rgba(114, 116, 119, 0.43);
     transform: scale(1.05) rotate(-1deg);
+}
+
+#favoriteIcon {
+    width: 20%;
+    height: 20%;
+}
+
+#favoriteIcon:hover {
+    cursor: pointer;
+    scale: 1.2;
 }
 
 

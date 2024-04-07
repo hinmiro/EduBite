@@ -31,10 +31,9 @@ document.addEventListener('DOMContentLoaded', async event => {
         console.log(await constructAvatar(userData.avatar));
         document.querySelector('#name').textContent = userData.username;
         document.querySelector('#email').textContent = userData.email;
-        document.querySelector('#favorite').textContent += userData.favorite;
-        console.log(userData.avatar);
+        const favouriteRestaurant = await getRestaurant(userData.favouriteRestaurant);
+        document.querySelector('#favoriteRestaurant').textContent = favouriteRestaurant.name;
     }
-
 });
 
 
@@ -127,6 +126,9 @@ async function updateUserData(target, data) {
         case 'password':
             payload.password = data;
             break;
+        case 'favorite':
+            payload.favorite = data;
+            break;
     }
 
     const response = await fetch('https://10.120.32.94/restaurant/api/v1/users', {
@@ -140,7 +142,8 @@ async function updateUserData(target, data) {
 
     if (!response.ok) throw new Error(`Http error: ${response.status}`);
     try {
-        return await response.json();
+        console.log(await response.json());
+        console.log('User data updated!')
     } catch (e) {
         console.error('Parsing error:', e);
     }
@@ -170,4 +173,11 @@ imageUpload.addEventListener('change', (event) => {
 async function constructAvatar(avatar) {
         const imgEle = document.querySelector('#avatar');
         imgEle.src = `https://10.120.32.94/restaurant/uploads/${avatar}`;
+}
+
+const getRestaurant = async (id) => {
+    const response = await fetch(`https://10.120.32.94/restaurant/api/v1/restaurants/${id}`);
+    const data = await response.json();
+    console.log(data);
+    return data;
 }
