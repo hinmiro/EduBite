@@ -22,14 +22,14 @@ emailDiv.appendChild(usernameLoginLabel);
 emailDiv.appendChild(usernameLoginInput);
 
 
-let passwordDiv = document.createElement('div');
+const passwordDiv = document.createElement('div');
 passwordDiv.classList.add('input-group');
 
-let passwordLabel = document.createElement('label');
+const passwordLabel = document.createElement('label');
 passwordLabel.setAttribute('for', 'modalPasswordField');
 passwordLabel.textContent = 'Password';
 
-let passwordInput = document.createElement('input');
+const passwordInput = document.createElement('input');
 passwordInput.setAttribute('type', 'password');
 passwordInput.setAttribute('id', 'modalPasswordField');
 passwordInput.setAttribute('name', 'password');
@@ -40,15 +40,20 @@ passwordDiv.appendChild(passwordLabel);
 passwordDiv.appendChild(passwordInput);
 
 
-let loginModal = document.createElement('dialog');
+const loginModal = document.createElement('dialog');
 loginModal.classList.add('loginModal');
 
-let modalContent = document.createElement('div');
+const modalContent = document.createElement('div');
 modalContent.classList.add('loginModal-content');
 
-let closeButtonAuth = document.createElement('span');
-closeButtonAuth.classList.add('close');
-closeButtonAuth.innerHTML = '&times;';
+const closeButtonAuthRegister = document.createElement('span');
+closeButtonAuthRegister.classList.add('close');
+closeButtonAuthRegister.innerHTML = '&times;';
+
+
+const closeButtonAuthLogin = document.createElement('span');
+closeButtonAuthLogin.classList.add('close');
+closeButtonAuthLogin.innerHTML = '&times;';
 
 const form = document.createElement('form');
 form.classList.add('login');
@@ -79,7 +84,7 @@ form.appendChild(emailDiv);
 form.appendChild(passwordDiv);
 form.appendChild(buttonContainer);
 
-modalContent.appendChild(closeButtonAuth);
+modalContent.appendChild(closeButtonAuthLogin);
 modalContent.appendChild(form);
 
 loginModal.appendChild(modalContent);
@@ -95,8 +100,12 @@ registerLabel.addEventListener('click', (event) => {
     registerModal.style.display = 'flex';
 });
 
-closeButtonAuth.addEventListener('click', () => {
+closeButtonAuthRegister.addEventListener('click', () => {
     registerModal.style.display = 'none';
+});
+
+closeButtonAuthLogin.addEventListener('click', () => {
+    loginModal.style.display = 'none';
 });
 
 async function isUsernameTaken(username) {
@@ -116,14 +125,6 @@ registerLabel.addEventListener('click', (event) => {
     registerModal.style.display = 'flex';
 });
 
-closeButtonAuth.addEventListener('click', () => {
-    registerModal.style.display = 'none';
-});
-
-
-closeButtonAuth.addEventListener('click', function () {
-    loginModal.style.display = 'none';
-});
 
 // Register modal
 
@@ -181,7 +182,7 @@ registerContainer.appendChild(usernameDiv);
 registerContainer.appendChild(registerEmailDiv);
 registerContainer.appendChild(registerPassDiv);
 registerContainer.appendChild(registerButton);
-registerModal.appendChild(closeButtonAuth);
+registerModal.appendChild(closeButtonAuthRegister);
 registerModal.appendChild(registerContainer);
 document.body.appendChild(registerModal);
 
@@ -225,10 +226,11 @@ loginButton.addEventListener('click', (evt) => {
         location.reload();
 
     } else {
-        loginModal.style.display = 'flex';
+        loginModal.style.display = 'flex'
     }
 })
-// Event listener for the login button
+
+//  Event listener for the login button
 loginButtonScript.addEventListener('click', async event => {
     event.preventDefault();
     const username = document.querySelector('#modalUsernameField');

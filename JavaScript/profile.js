@@ -28,10 +28,11 @@ document.addEventListener('DOMContentLoaded', async event => {
         document.querySelector('#loginMessage').style.display = 'none';
         const userData = await getProfileData(userToken);
         console.log(userData);
+        console.log(await constructAvatar(userData.avatar));
         document.querySelector('#name').textContent = userData.username;
         document.querySelector('#email').textContent = userData.email;
         document.querySelector('#favorite').textContent += userData.favorite;
-        document.querySelector('#avatar').src = userData.avatar;
+        console.log(userData.avatar);
     }
 
 });
@@ -166,3 +167,7 @@ imageUpload.addEventListener('change', (event) => {
 });
 
 
+async function constructAvatar(avatar) {
+        const imgEle = document.querySelector('#avatar');
+        imgEle.src = `https://10.120.32.94/restaurant/uploads/${avatar}`;
+}

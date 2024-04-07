@@ -351,12 +351,28 @@ table th {
 .profileTable {
     display: flex;
     flex-direction: row;
+    border-collapse: separate;
+    border-spacing: 15rem 1rem;
 }
+
 
 .registerContainer {
     display: flex;
     flex-direction: column;
 }
+
+.profileItem {
+    display: none;
+    flex-direction: column;
+    height: 7rem;
+    width: 14rem;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 1rem 2rem 1rem 1rem;
+    background-color: #5e5e5e21;
+    border-radius: 20px;
+}
+    
 
 #loginButton {
     background-color: #aac2d1;

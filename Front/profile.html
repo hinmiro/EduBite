@@ -28,26 +28,26 @@
 <label id="loginMessage">You are not logged in.</label>
 <div class="content">
     <form class="profileContainer">
-        <dialog id="submitUsername">
-            <span class="close">&times;</span>
-            <label>Choose new username</label>
-            <input type="text" class="userInput">
-            <input type="hidden" class="hidden" value="username">
-            <button class="submit">Submit</button>
+        <dialog class="profileItem" id="submitUsername">
+                <span class="close">&times;</span>
+                <label>Choose new username</label>
+                <input type="text" class="userInput">
+                <input type="hidden" class="hidden" value="username">
+                <button class="submit">Submit</button>
         </dialog>
-        <dialog id="submitEmail">
-            <span class="close">&times;</span>
-            <label>Choose new email</label>
-            <input type="text" class="userInput">
-            <input type="hidden" class="hidden" value="email">
-            <button class="submit">Submit</button>
+        <dialog class="profileItem" id="submitEmail">
+                <span class="close">&times;</span>
+                <label>Choose new email</label>
+                <input type="text" class="userInput">
+                <input type="hidden" class="hidden" value="email">
+                <button class="submit">Submit</button>
         </dialog>
-        <dialog id="submitPassword">
-            <span class="close">&times;</span>
-            <label>Choose new password</label>
-            <input type="text" class="userInput">
-            <input type="hidden" class="hidden" value="password">
-            <button class="submit">Submit</button>
+        <dialog class="profileItem" id="submitPassword">
+                <span class="close">&times;</span>
+                <label>Choose new password</label>
+                <input type="text" class="userInput">
+                <input type="hidden" class="hidden" value="password">
+                <button class="submit">Submit</button>
         </dialog>
         <table class="profileTable">
             <tr>
@@ -61,11 +61,18 @@
             <tr>
                 <td id="favorite">Favorite restaurant: </td>
             </tr>
-            <tr><td><button class="changeButton" id="password">Change password</button></td></tr>
+            <tr>
+                <td>Your avatar</td>
+            </tr>
+            <tr>
+                <td><img id="avatar" style="width: 10rem; height: 10rem;"></img></td>
+            </tr>
+            <tr>
+                <td><button class="changeButton" id="password">Change password</button></td>
+            </tr>
             <tr>
                 <td><input type="file" id="imageUpload" accept="image/*" style="display: flex;"></td>
                 <td><button class="changeButton" id="uploadAvatarButton">Upload Avatar</button></td>
-                <td><img id="avatar" style="width: 10rem; height: 10rem;"></img></td>
             </tr>
         </table>
     </form>
