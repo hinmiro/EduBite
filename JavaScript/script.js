@@ -196,10 +196,10 @@ document.addEventListener('DOMContentLoaded', async event => {
     }).addTo(map);
 
     const myPlace = L.icon({
-        iconUrl: 'img/gif3.gif',
-        iconSize: [60, 60],
-        iconAnchor: [25, 50],
-        popupAnchor: [5, -30]
+        iconUrl: 'img/ukko2.png',
+        iconSize: [50, 50],
+        iconAnchor: [45, 50],
+        popupAnchor: [-20, -50]
     });
 
     if (navigator.geolocation) {
@@ -218,9 +218,9 @@ document.addEventListener('DOMContentLoaded', async event => {
 
     restaurants.forEach(r => {
         const foodPin = L.icon({
-            iconUrl: 'img/foodPinni.png',
-            iconSize: [100, 100],
-            iconAnchor: [50, 70],
+            iconUrl: 'img/marker2.png',
+            iconSize: [35, 50],
+            iconAnchor: [25, 30],
             popupAnchor: [0, -35]
 
         });
