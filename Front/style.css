@@ -1,11 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap');
+
 * {
     box-sizing: border-box;
 }
 
 h1 {
-    background-image: url(https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTVvN2xjNmJmY2c1dnViNHN4ZTQ2cjZ2MWx3bHRzZ3llYjB4eXl4eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3q3SUqPnxZGQpMNcjc/giphy.gif);
-    background-size: cover;
-    color: transparent;
+    font-family: 'Bungee';
     -webkit-background-clip: text;
     font-size: 4rem;
     margin: 0px 2.5rem;
@@ -16,11 +17,10 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 60rem;  
+    width: 60rem;
 }
 
 #logo {
-    width: 10rerm;
     height: 10rem;
 }
 
@@ -29,7 +29,7 @@ h1 {
     width: 33%;
     margin-top: 1rem;
     max-height: 50%;
-    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+    box-shadow: rgba(3, 102, 214, 0.3) 0 0 0 3px;
     border-radius: 15px;
 }
 
@@ -45,13 +45,13 @@ body {
 header {
     background-image: url(https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXZ0bHpqMndwbjhhemV6ZzZveDdoczFuaDA4Y29kaDF5ZTE3MnA4eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6EhPDMjaDP5UC4ZW/giphy.gif);
     background-size: contain;
-  
+
     display: flex;
     justify-content: space-between;
     border-bottom: solid;
     border-color: #A9DEF9;
     border-block-width: 7px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     margin: 1rem;
 }
@@ -338,16 +338,17 @@ section {
 .menuTable th {
     color: #E4C1F9;
     border-bottom: #A9DEF9 solid;
-    padding: 5rem 0 0 0;}
+    padding: 5rem 0 0 0;
+}
 
 #dailyLink {
     font-size: 20px;
     cursor: pointer;
     padding: 10px 20px;
     border-radius: 10px;
-    border:1px solid rgba(255,255,255,0);
+    border: 1px solid rgba(255, 255, 255, 0);
     background-image: linear-gradient(#FCF6BD, #FF99C8);
-    border:2px solid #E4C1F9;
+    border: 2px solid #E4C1F9;
 
 
 }
@@ -355,7 +356,7 @@ section {
 #dailyLink:hover {
     transition: all 0.1s ease-in;
     background-image: linear-gradient(#FF99C8, #FCF6BD);
-    background-position:150% top;
+    background-position: 150% top;
     box-shadow: 0 0 5px 5px #A9DEF9;
     scale: 1.01;
 }
@@ -365,15 +366,15 @@ section {
     cursor: pointer;
     padding: 10px 20px;
     border-radius: 10px;
-    border:1px solid rgba(255,255,255,0);
+    border: 1px solid rgba(255, 255, 255, 0);
     background-image: linear-gradient(#FCF6BD, #FF99C8);
-    border:2px solid #E4C1F9;
+    border: 2px solid #E4C1F9;
 }
 
 #weeklyLink:hover {
     transition: all 0.1s ease-in;
     background-image: linear-gradient(#FF99C8, #FCF6BD);
-    background-position:150% top;
+    background-position: 150% top;
     box-shadow: 0 0 5px 5px #A9DEF9;
     scale: 1.01;
 }
@@ -386,12 +387,11 @@ section {
 }
 
 #dailyWeekly {
-    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100..900&display=swap');
     font-family: "Raleway", sans-serif;
     font-style: normal;
     background: transparent 1% 50%;
     background-size: 300% 300%;
-    color:#fff;
+    color: #fff;
     display: flex;
     justify-content: space-evenly;
     color: midnightblue;
