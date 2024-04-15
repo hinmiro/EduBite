@@ -1,26 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
 
 * {
     box-sizing: border-box;
 }
 
 h1 {
-    font-family: 'Bungee';
-    -webkit-background-clip: text;
     font-size: 4rem;
     margin: 0px 2.5rem;
-    -webkit-text-stroke: 2px #A6C48A;
+    font-family:  'Honk';
 }
 
 .logoHead {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 60rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 20rem;
+    height: 10rem;
+    padding: 0rem;
 }
 
 #logo {
+    width: 10rerm;
     height: 10rem;
 }
 
@@ -88,14 +88,10 @@ header {
     white-space: nowrap;
 }
 
-.menu li:not([disabled]):focus {
-    box-shadow: 0 0 .25rem rgba(245, 244, 244, 0.5), -.125rem -.125rem 1rem rgba(7, 129, 39, 0.713), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
-}
 
 .menu li:not([disabled]):hover {
     background: #ff097c;
     color: #A9DEF9;
-    box-shadow: 0 0 .25rem rgba(251, 249, 249, 0.5), -.125rem -.125rem 1rem rgba(50, 106, 208, 0.657), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
 }
 
 
@@ -448,27 +444,24 @@ section {
 
 
 #loginButton {
-    background: linear-gradient(0, #A9DEF9, #D0F4DE);
+    background: linear-gradient(0, #fc97c5, #a9def9);
     border-radius: 9px;
-    color: #16425b;
+    color: #ff097c;
     cursor: pointer;
     display: inline-block;
     font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
     padding: 2px 12px;
     text-align: center;
-    text-decoration: none;
-    transition: all 250ms;
     border: 0;
     font-size: 16px;
     user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
     font-weight: bold;
 }
 
 #loginButton:hover {
-    box-shadow: 0 0 .25rem rgba(255, 255, 255, 0.5), -.125rem -.125rem 1rem rgba(50, 106, 208, 0.657), .125rem .125rem 1rem rgba(114, 116, 119, 0.43);
-    transform: scale(1.05) rotate(-1deg);
+    transform:  0.2s;
+    scale: 1.05;
+    background: linear-gradient(0, #a9def9, #fc97c5);
 }
 
 #favoriteIcon {

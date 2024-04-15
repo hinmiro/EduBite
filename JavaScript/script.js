@@ -181,7 +181,16 @@ document.addEventListener('DOMContentLoaded', async event => {
     event.preventDefault();
     const restaurants = await getRestaurants();
     console.log(restaurants);
-    const map = L.map('map').setView([60.18, 24.94], 13);
+
+    const map = L.map('map', {
+        maxBounds: [
+            [-90, -180],
+            [90, 180]
+        ],
+        center: [60.18, 24.94],
+        zoom: 13
+    });
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
     }).addTo(map);
