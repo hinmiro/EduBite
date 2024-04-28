@@ -178,13 +178,14 @@ dialog::backdrop {
 }
 
 h4 {
-    color: #FF99C8;
     text-align: center;
     font-size: larger;
     text-align: center;
 }
 
 section h4 {
+    color: #58bab4;
+
 }
 
 .register {
@@ -208,7 +209,7 @@ section {
     overflow: auto;
     max-height: 50%;
     background-color: #FCF6BD;
-    color: #FF99C8;
+    color: #FF097C;;
     box-shadow: rgba(14, 30, 37, 0.36) 0 10px 20px 5px, #A9DEF9 0 0 10px 5px;
 }
 
@@ -337,7 +338,7 @@ section {
 }
 
 .menuTable th {
-    color: #E4C1F9;
+    color: #58bab4;
     border-bottom: #A9DEF9 solid;
     padding: 5rem 0 0 0;
 }
@@ -415,6 +416,7 @@ section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    color: #58bab4;
 }
 
 .sorts th:hover {
@@ -481,7 +483,7 @@ section {
 #loginMessage {
     display: flex;
     justify-content: center;
-    color: #fd50b3;
+    color: #58bab4;
 }
 
 
