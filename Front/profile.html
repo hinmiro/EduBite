@@ -21,7 +21,7 @@
     </div>
     <div>
         <form class="login1">
-            <button type="submit" id="loginButton"  name="Login">Login</button>
+            <button type="submit" id="loginButton" name="Login">Login</button>
         </form>
     </div>
 </header>
@@ -29,52 +29,66 @@
 <div class="content">
     <form class="profileContainer">
         <dialog class="profileItem" id="submitUsername">
-                <span class="close">&times;</span>
-                <label>Choose new username</label>
+            <span class="close">&times;</span>
+            <label>Choose new username</label>
+            <label>
                 <input type="text" class="userInput">
-                <input type="hidden" class="hidden" value="username">
-                <button class="submit">Submit</button>
+            </label>
+            <input type="hidden" class="hidden" value="username">
+            <button class="submit">Submit</button>
         </dialog>
         <dialog class="profileItem" id="submitEmail">
-                <span class="close">&times;</span>
-                <label>Choose new email</label>
+            <span class="close">&times;</span>
+            <label>Choose new email</label>
+            <label>
                 <input type="text" class="userInput">
-                <input type="hidden" class="hidden" value="email">
-                <button class="submit">Submit</button>
+            </label>
+            <input type="hidden" class="hidden" value="email">
+            <button class="submit">Submit</button>
         </dialog>
         <dialog class="profileItem" id="submitPassword">
-                <span class="close">&times;</span>
-                <label>Choose new password</label>
+            <span class="close">&times;</span>
+            <label>Choose new password</label>
+            <label>
                 <input type="text" class="userInput">
-                <input type="hidden" class="hidden" value="password">
-                <button class="submit">Submit</button>
+            </label>
+            <input type="hidden" class="hidden" value="password">
+            <button class="submit">Submit</button>
         </dialog>
         <table class="profileTable">
             <tr>
                 <td id="name"></td>
-                <td><button class="changeButton" id="usernameButton">Change</button></td>
+                <td>
+                    <button class="changeButton" id="usernameButton">Change</button>
+                </td>
             </tr>
             <tr>
                 <td id="email"></td>
-                <td><button class="changeButton" id="emailButton">Change</button></td>
+                <td>
+                    <button class="changeButton" id="emailButton">Change</button>
+                </td>
             </tr>
             <tr>
-                <td id="favorite">Favorite restaurant: </td>
+                <td id="favorite">Favorite restaurant:</td>
                 <td id="favoriteRestaurant"></td>
             </tr>
             <tr>
                 <td>Your avatar:</td>
-                <td><img id="avatar" style="width: 10rem; height: 10rem;"></img></td>
+                <td><img src="" id="avatar" alt="avatar image" style="width: 10rem; height: 10rem;"></td>
 
             </tr>
             <tr>
                 <td><label>Select new avatar:</label></td>
                 <td><input type="file" id="imageUpload" accept="image/*" style="display: flex;"></td>
-                <td><button class="changeButton" id="uploadAvatarButton">Upload Avatar</button></td>
+                <td>
+                    <button class="changeButton" id="uploadAvatarButton">Upload Avatar</button>
+                </td>
 
             </tr>
             <tr>
-                <td><button class="changeButton" id="password">Change password</button></td>
+                <td>
+                    <button class="changeButton" id="password">Change password</button>
+                </td>
             </tr>
         </table>
     </form>

@@ -271,6 +271,7 @@ loginButtonScript.addEventListener('click', function (event) {
 });
 
 document.addEventListener('DOMContentLoaded', (event) => {
+    event.preventDefault();
     const userToken = localStorage.getItem('token');
     if (userToken !== null) {
         loginButton.textContent = 'Logout';

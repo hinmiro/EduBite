@@ -23,7 +23,7 @@ const sortHeader = document.createElement('th');
 sortHeader.textContent = 'Distance';
 
 
-let userToken = null;
+//let userToken = null;
 
 
 // functions
@@ -41,8 +41,7 @@ const restaurantsInOrder = (posLat, posLon, restaurants) => {
             Math.cos(deg2rad(posLat)) * Math.cos(deg2rad(rLat)) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const d = 6371 * c;
-        r.distance = d;
+        r.distance = 6371 * c;
     });
 }
 
@@ -108,7 +107,6 @@ async function getMenu(id) {
     const dataDaily = await daily.json();
     const weekly = await fetch(`https://10.120.32.94/restaurant/api/v1/restaurants/weekly/${id}/en`);
     const dataWeekly = await weekly.json();
-    ;
     dailyMenu = dataDaily.courses;
     weeklyMenu = dataWeekly.days;
 
@@ -168,7 +166,7 @@ function setMenuWeekly(weekly) {
             menuTable.appendChild(newRow);
         })
     });
-};
+}
 
 //Leaflet map
 
@@ -240,11 +238,12 @@ document.addEventListener('DOMContentLoaded', async event => {
             <br>${r.address}
             <br>${r.city}
             <br>${r.phone}
-            <br><img src="img/starNoBg.png" id="favoriteIcon"/>`)
+            <br><img src="img/starNoBg.png" id="favoriteIcon" alt="Favorite"/>`)
                 .addTo(map);
 
 
             markerFood.on('popupopen', async (event) => {
+                event.preventDefault();
                 document.querySelector('#favoriteIcon').addEventListener('click', async (event) => {
                     event.preventDefault();
                     const payload = {
@@ -271,6 +270,7 @@ document.addEventListener('DOMContentLoaded', async event => {
             });
 
             markerFood.on('click', async event => {
+                event.preventDefault();
                 menuTable.innerHTML = '';
                 await getMenu(r._id);
             })

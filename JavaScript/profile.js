@@ -2,15 +2,10 @@
 
 //Setup
 const submitButton = document.querySelectorAll('.submit');
-const userInput = document.querySelectorAll('.userInput');
-const hidden = document.querySelector('.hidden');
 const submitUsername = document.querySelector('#submitUsername');
 const submitEmail = document.querySelector('#submitEmail');
 const submitPassword = document.querySelector('#submitPassword');
 const changeUsername = document.querySelector('#usernameButton');
-const profileTable = document.querySelector('.profileTable');
-const nameTable = document.querySelector('#name');
-const emailTable = document.querySelector('#email');
 
 const closeButton = document.querySelectorAll('.close');
 
@@ -35,9 +30,6 @@ document.addEventListener('DOMContentLoaded', async event => {
         document.querySelector('#favoriteRestaurant').textContent = favouriteRestaurant.name;
     }
 });
-
-
-
 
 
 // events
@@ -78,7 +70,6 @@ submitButton.forEach((button) => {
 })
 
 
-
 async function getProfileData(token) {
 
     const response = await fetch(`https://10.120.32.94/restaurant/api/v1/users/token`, {
@@ -87,8 +78,7 @@ async function getProfileData(token) {
     });
     if (!response.ok) throw new Error(`Http error: ${response.status}`);
     try {
-        const userData = await response.json();
-        return userData;
+        return await response.json();
     } catch (e) {
         console.error('Parsing error: ', e);
     }
@@ -153,7 +143,6 @@ async function updateUserData(target, data) {
 const imageUpload = document.querySelector('#imageUpload');
 
 
-
 document.querySelector('#uploadAvatarButton').addEventListener('click', async (event) => {
     event.preventDefault();
     if (window.selectedFile) {
@@ -171,8 +160,8 @@ imageUpload.addEventListener('change', (event) => {
 
 
 async function constructAvatar(avatar) {
-        const imgEle = document.querySelector('#avatar');
-        imgEle.src = `https://10.120.32.94/restaurant/uploads/${avatar}`;
+    const imgEle = document.querySelector('#avatar');
+    imgEle.src = `https://10.120.32.94/restaurant/uploads/${avatar}`;
 }
 
 const getRestaurant = async (id) => {
