@@ -243,7 +243,6 @@ document.addEventListener('DOMContentLoaded', async event => {
 
 
             markerFood.on('popupopen', async (event) => {
-                event.preventDefault();
                 document.querySelector('#favoriteIcon').addEventListener('click', async (event) => {
                     event.preventDefault();
                     const payload = {
@@ -270,7 +269,6 @@ document.addEventListener('DOMContentLoaded', async event => {
             });
 
             markerFood.on('click', async event => {
-                event.preventDefault();
                 menuTable.innerHTML = '';
                 await getMenu(r._id);
             })
