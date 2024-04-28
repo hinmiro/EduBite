@@ -22,39 +22,34 @@ nameHeader.textContent = 'Name';
 const sortHeader = document.createElement('th');
 sortHeader.textContent = 'Distance';
 
-// Login
+
 let userToken = null;
-
-
-// Event listeners
 
 
 // functions
 
-function showRestaurantList(posLat, posLon, restaurants) {
-    console.log(posLat, posLon)
-    console.log('restaurants:', restaurants);
-
-
-    restaurants.forEach((r) => {
+const restaurantsInOrder = (posLat, posLon, restaurants) => {
+    restaurants.forEach(r => {
         const rLat = r.location.coordinates[1];
         const rLon = r.location.coordinates[0];
-
         const dLat = deg2rad(rLat - posLat);
         const dLon = deg2rad(rLon - posLon);
 
         // Calculation to get distance in km from point to point with Haversine formula
 
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(deg2rad(posLat)) * Math.cos(deg2rad(rLat)) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const d = 6371 * c;
-
         r.distance = d;
-    })
+    });
+}
+
+function showRestaurantList(posLat, posLon, restaurants) {
+    console.log(posLat, posLon)
+    console.log('restaurants:', restaurants);
+    restaurantsInOrder(posLat, posLon, restaurants);
 
 
     nameHeader.addEventListener('click', (event) => {
@@ -66,12 +61,15 @@ function showRestaurantList(posLat, posLon, restaurants) {
 
     sortHeader.addEventListener('click', (event) => {
         event.preventDefault();
-        const sortedRestaurants = [...restaurants].sort((a, b) => a.distance - b.distance);
-        console.log('sorted:', sortedRestaurants);
+        const sortedRestaurants = sortByDistance(restaurants);
         renderRestaurants(sortedRestaurants);
     });
 
     renderRestaurants(restaurants);
+}
+
+const sortByDistance = (restaurants) => {
+    return [...restaurants].sort((a, b) => a.distance - b.distance);
 }
 
 function renderRestaurants(restaurants) {
@@ -215,55 +213,68 @@ document.addEventListener('DOMContentLoaded', async event => {
     } else {
         console.log('Location found')
     }
+    const foodPin = L.icon({
+        iconUrl: 'img/marker2.png',
+        iconSize: [35, 50],
+        iconAnchor: [25, 30],
+        popupAnchor: [0, -35]
 
-    restaurants.forEach(r => {
-        const foodPin = L.icon({
-            iconUrl: 'img/marker2.png',
-            iconSize: [35, 50],
-            iconAnchor: [25, 30],
-            popupAnchor: [0, -35]
+    });
 
-        });
+    const highlightIcon = L.icon({
+        iconUrl: 'img/foodPinni.png',
+        iconSize: [100, 100],
+        iconAnchor: [60, 60],
+        popupAnchor: [-10, -40]
+    });
 
-        const markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: foodPin})
-            .bindPopup(`
+    navigator.geolocation.getCurrentPosition((pos) => {
+        restaurantsInOrder(pos.coords.latitude, pos.coords.longitude, restaurants);
+        const restaurantsByDistance = sortByDistance(restaurants);
+        const nearestRestaurant = restaurantsByDistance[0];
+        restaurantsByDistance.forEach(r => {
+            const icon = r === nearestRestaurant ? highlightIcon : foodPin;
+            const markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: icon})
+                .bindPopup(`
             <b>${r.name}</b>
             <br>${r.address}
             <br>${r.city}
             <br>${r.phone}
             <br><img src="img/starNoBg.png" id="favoriteIcon"/>`)
-            .addTo(map);
+                .addTo(map);
 
 
-        markerFood.on('popupopen', async (event) => {
-            document.querySelector('#favoriteIcon').addEventListener('click', async (event) => {
-                event.preventDefault();
-                const payload = {
-                    favouriteRestaurant: r._id
-                };
-                console.log(payload);
-                const response = await fetch('https://10.120.32.94/restaurant/api/v1/users', {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                        'Content-type': 'application/json',
-                    },
-                    body: JSON.stringify(payload)
+            markerFood.on('popupopen', async (event) => {
+                document.querySelector('#favoriteIcon').addEventListener('click', async (event) => {
+                    event.preventDefault();
+                    const payload = {
+                        favouriteRestaurant: r._id
+                    };
+                    console.log(payload);
+                    const response = await fetch('https://10.120.32.94/restaurant/api/v1/users', {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                            'Content-type': 'application/json',
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`Http error: ${response.status}`);
+                    try {
+                        const json = response.json();
+                        console.log(json);
+                        console.log('User data updated');
+                    } catch (e) {
+                        console.error('Parse error', e);
+                    }
                 });
-                if (!response.ok) throw new Error(`Http error: ${response.status}`);
-                try {
-                    const json = response.json();
-                    console.log(json);
-                    console.log('User data updated');
-                } catch (e) {
-                    console.error('Parse error', e);
-                }
             });
-        });
 
-        markerFood.on('click', async event => {
-            menuTable.innerHTML = '';
-            await getMenu(r._id);
+            markerFood.on('click', async event => {
+                menuTable.innerHTML = '';
+                await getMenu(r._id);
+            })
         })
+
     })
 });
