@@ -55,49 +55,55 @@
             <input type="hidden" class="hidden" value="password">
             <button class="submit">Submit</button>
         </dialog>
-        <table class="profileTable">
-            <tr>
-                <td></td>
-                <td id="name"></td>
-                <td>
-                    <button class="changeButton" id="usernameButton">Change</button>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td id="email"></td>
-                <td>
-                    <button class="changeButton" id="emailButton">Change</button>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td id="favorite">Favorite restaurant:</td>
-                <td id="favoriteRestaurant"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>Your avatar:</td>
-                <td><img src="img/defaultAvatar.png" id="avatar" alt="avatar image" style="width: 10rem; height: 10rem;"></td>
+        <div class="profileDiv">
+            <table class="profileTable">
+                <tr>
+                    <td>Username:</td>
+                    <td id="name"></td>
+                    <td>
+                        <button class="changeButton" id="usernameButton">Change</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td id="email"></td>
+                    <td>
+                        <button class="changeButton" id="emailButton">Change</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Favorite restaurant: </td>
+                    <td id="favoriteRestaurant"></td>
+                    <td id="favorite"></td>
+                </tr>
+                <tr>
+                    <td>Profile picture:</td>
+                    <td></td>
+                    <td><img src="img/defaultAvatar.png" id="avatar" alt="avatar image"
+                             style="width: 10rem; height: 10rem;"></td>
 
-            </tr>
-            <tr>
-                <td><label>Select new avatar:</label></td>
-                <td><input type="file" id="imageUpload" accept="image/*" style="display: flex;"></td>
-                <td>
-                    <button class="changeButton" id="uploadAvatarButton">Upload Avatar</button>
-                </td>
+                </tr>
+                <tr>
+                    <td><label>Select new avatar:</label></td>
+                    <td><input type="file" id="imageUpload" accept="image/*" style="display: flex;"></td>
+                    <td>
+                        <button class="changeButton" id="uploadAvatarButton">Upload Avatar</button>
+                    </td>
 
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    <button class="changeButton" id="password">Change password</button>
-                </td>
-            </tr>
-        </table>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class="changeButton" id="password">Change password</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </form>
 </div>
 </body>
+<footer>
+    <p>Copyright 2024 &copy</p>
+</footer>
 </html>

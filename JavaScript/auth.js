@@ -245,7 +245,10 @@ loginButtonScript.addEventListener('click', async event => {
     }
 
     const response = await fetch('https://10.120.32.94/restaurant/api/v1/auth/login', payload);
-    if (!response.ok) throw new Error('Invalid login credentials');
+    if (!response.ok) {
+        alert('Invalid username or password');
+        throw new Error('Invalid login credentials');
+    }
     try {
         const data = await response.json();
         const userToken = data.token;

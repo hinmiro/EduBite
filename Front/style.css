@@ -29,10 +29,13 @@ h1 {
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     font-family: "Ubuntu", Arial, sans-serif;
     background-image: linear-gradient(0, #FCF6BD, #FF99C8);
     background-size: 100% 300%;
-    height: 100vh;
+    height: 150vh;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
 }
@@ -284,9 +287,8 @@ section {
 
 .content {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    width: 75%;
 
 }
 
@@ -332,9 +334,8 @@ section {
 }
 
 .menuTable td {
-    border-bottom: solid #A9DEF9;
     padding: 15px 0 0 0;
-    border-bottom-width: 2px;
+    text-align: center;
 }
 
 .menuTable th {
@@ -344,10 +345,10 @@ section {
 }
 
 #dailyLink {
-    font-size: 20px;
+    font-size: 15px;
     cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 5px 5px;
+    border-radius: 9px;
     border: 1px solid rgba(255, 255, 255, 0);
     background-image: linear-gradient(#FCF6BD, #FF99C8);
     border: 2px solid #E4C1F9;
@@ -364,10 +365,10 @@ section {
 }
 
 #weeklyLink {
-    font-size: 20px;
+    font-size: 15px;
     cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 5px 5px;
+    border-radius: 9px;
     border: 1px solid rgba(255, 255, 255, 0);
     background-image: linear-gradient(#FCF6BD, #FF99C8);
     border: 2px solid #E4C1F9;
@@ -425,10 +426,12 @@ section {
 }
 
 .profileTable {
-    display: flex;
-    flex-direction: row;
-    border-collapse: separate;
-    border-spacing: 10rem 1rem;
+    border-collapse: collapse;
+    margin-top: auto;
+}
+
+.profileTable td, .profileTable th {
+    padding: 10px;
 }
 
 
@@ -471,8 +474,8 @@ section {
 }
 
 #favoriteIcon {
-    width: 20%;
-    height: 20%;
+    width: 10%;
+    margin-left: 10px;
 }
 
 #favoriteIcon:hover {
@@ -484,6 +487,29 @@ section {
     display: flex;
     justify-content: center;
     color: #58bab4;
+}
+
+.profileDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 55vh;
+    border-radius: 10px;
+    background-color: #a9def9;
+    box-shadow: 0px 0px 15px 0px #16425b;
+    margin-top: 2rem;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    background-color: #59bcb6;
+    border-radius: 10px;
+    border: 1px solid #FF99C8;
+    margin-top: auto;
+    box-shadow: 0px 0px 10px 0px #16425b;
+    text-shadow: 0px 2px 2px #333;
+    color: white;
 }
 
 

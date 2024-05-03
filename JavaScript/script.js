@@ -114,21 +114,6 @@ async function getMenu(id) {
     console.log('Weekly menu: ', weeklyMenu)
 }
 
-dailyLink.addEventListener('click', event => {
-    event.preventDefault();
-    menuTable.innerHTML = '';
-    setMenuDaily(dailyMenu);
-    dailyDiv.style.display = 'flex';
-    weeklyDiv.style.display = 'none';
-});
-
-weeklyLink.addEventListener('click', event => {
-    event.preventDefault();
-    menuTable.innerHTML = '';
-    setMenuWeekly(weeklyMenu);
-    weeklyDiv.style.display = 'flex';
-    dailyDiv.style.display = 'none';
-});
 
 function setMenuDaily(daily) {
     document.querySelector('.menuTable').innerHTML = '';
@@ -176,15 +161,13 @@ document.body.appendChild(favorite);
 document.addEventListener('DOMContentLoaded', async event => {
     event.preventDefault();
     const restaurants = await getRestaurants();
-    console.log(restaurants);
 
     const map = L.map('map', {
         maxBounds: [
             [-90, -180],
             [90, 180]
         ],
-        center: [60.18, 24.94],
-        zoom: 13
+
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -201,7 +184,7 @@ document.addEventListener('DOMContentLoaded', async event => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
             showRestaurantList(position.coords.latitude, position.coords.longitude, restaurants);
-            map.setView([position.coords.latitude, position.coords.longitude], 13);
+            map.setView([position.coords.latitude, position.coords.longitude], 12);
             L.marker([position.coords.latitude, position.coords.longitude], {icon: myPlace})
                 .bindPopup('<b>You are here</b>')
                 .addTo(map);
@@ -238,8 +221,9 @@ document.addEventListener('DOMContentLoaded', async event => {
             <br>${r.address}
             <br>${r.city}
             <br>${r.phone}
-            <br><img src="img/starNoBg.png" id="favoriteIcon" alt="Favorite"/>`)
-                .addTo(map);
+            <br><button id="dailyLink">Daily menu</button>
+            <button id="weeklyLink">Weekly menu</button>
+            <br>Add to favorite<img src="img/starNoBg.png" id="favoriteIcon" alt="Favorite"/>`).addTo(map);
 
 
             markerFood.on('popupopen', async (event) => {
@@ -248,7 +232,6 @@ document.addEventListener('DOMContentLoaded', async event => {
                     const payload = {
                         favouriteRestaurant: r._id
                     };
-                    console.log(payload);
                     const response = await fetch('https://10.120.32.94/restaurant/api/v1/users', {
                         method: 'PUT',
                         headers: {
@@ -266,11 +249,45 @@ document.addEventListener('DOMContentLoaded', async event => {
                         console.error('Parse error', e);
                     }
                 });
+
             });
+
+            const weeklyListener = event => {
+                event.preventDefault();
+                menuTable.innerHTML = '';
+                setMenuWeekly(weeklyMenu);
+                weeklyDiv.style.display = 'flex';
+                dailyDiv.style.display = 'none';
+            }
+
+            const dailyListener = event => {
+                event.preventDefault();
+                menuTable.innerHTML = '';
+                setMenuDaily(dailyMenu);
+                dailyDiv.style.display = 'flex';
+                weeklyDiv.style.display = 'none';
+            }
+
+            markerFood.on("remove", () => {
+                const weeklyLink = document.querySelector('#weeklyLink');
+                weeklyLink.removeEventListener('click', weeklyListener);
+
+                const dailyLink = document.querySelector('#weeklyLink');
+                dailyLink.removeEventListener('click', dailyListener);
+            })
 
             markerFood.on('click', async event => {
                 menuTable.innerHTML = '';
                 await getMenu(r._id);
+
+
+                const weeklyLink = document.querySelector('#weeklyLink');
+                weeklyLink.addEventListener('click', weeklyListener);
+
+                const dailyLink = document.querySelector('#dailyLink');
+                dailyLink.addEventListener('click', dailyListener);
+
+
             })
         })
 
