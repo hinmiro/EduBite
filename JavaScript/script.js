@@ -23,11 +23,6 @@ const sortHeader = document.createElement('th');
 sortHeader.textContent = 'Distance';
 
 
-//let userToken = null;
-
-
-// functions
-
 const restaurantsInOrder = (posLat, posLon, restaurants) => {
     restaurants.forEach(r => {
         const rLat = r.location.coordinates[1];
@@ -45,9 +40,26 @@ const restaurantsInOrder = (posLat, posLon, restaurants) => {
     });
 }
 
+const getRestaurantById = async (id) => {
+    const response = await fetch(`https://10.120.32.94/restaurant/api/v1/restaurants/${id}`);
+    return await response.json();
+}
+
+const getFavoriteRestaurant = async () => {
+    const response = await fetch('https://10.120.32.94/restaurant/api/v1/users/token', {
+        method: 'GET',
+        headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')},
+    });
+    if (!response.ok) throw new Error(`Http error: ${response.status}`);
+    try {
+        const user = await response.json()
+        return await getRestaurantById(user.favouriteRestaurant);
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
 function showRestaurantList(posLat, posLon, restaurants) {
-    console.log(posLat, posLon)
-    console.log('restaurants:', restaurants);
     restaurantsInOrder(posLat, posLon, restaurants);
 
 
@@ -101,8 +113,6 @@ async function getRestaurants() {
 
 
 async function getMenu(id) {
-    console.log(id);
-
     const daily = await fetch(`https://10.120.32.94/restaurant/api/v1/restaurants/daily/${id}/en`);
     const dataDaily = await daily.json();
     const weekly = await fetch(`https://10.120.32.94/restaurant/api/v1/restaurants/weekly/${id}/en`);
@@ -110,8 +120,6 @@ async function getMenu(id) {
     dailyMenu = dataDaily.courses;
     weeklyMenu = dataWeekly.days;
 
-    console.log('Daily menu: ', dailyMenu);
-    console.log('Weekly menu: ', weeklyMenu)
 }
 
 
@@ -145,7 +153,6 @@ function setMenuWeekly(weekly) {
         day.courses.forEach(item => {
             const newRow = document.createElement('tr');
             const meal = document.createElement('td');
-            console.log(item.name);
             meal.textContent = item.name;
             newRow.appendChild(meal);
             menuTable.appendChild(newRow);
@@ -161,6 +168,8 @@ document.body.appendChild(favorite);
 document.addEventListener('DOMContentLoaded', async event => {
     event.preventDefault();
     const restaurants = await getRestaurants();
+
+    const favoriteRestaurant = await getFavoriteRestaurant();
 
     const map = L.map('map', {
         maxBounds: [
@@ -209,12 +218,27 @@ document.addEventListener('DOMContentLoaded', async event => {
         popupAnchor: [-10, -40]
     });
 
+    const favoritePin = L.icon({
+        iconUrl: 'img/favorite.png',
+        iconSize: [100, 100],
+        iconAnchor: [60, 60],
+        popupAnchor: [-10, -40]
+    });
+
     navigator.geolocation.getCurrentPosition((pos) => {
         restaurantsInOrder(pos.coords.latitude, pos.coords.longitude, restaurants);
         const restaurantsByDistance = sortByDistance(restaurants);
         const nearestRestaurant = restaurantsByDistance[0];
+
         restaurantsByDistance.forEach(r => {
-            const icon = r === nearestRestaurant ? highlightIcon : foodPin;
+            let icon;
+            if (r._id === favoriteRestaurant._id) {
+                icon = favoritePin;
+            } else if (r === nearestRestaurant) {
+                icon = highlightIcon;
+            } else {
+                icon = foodPin;
+            }
             const markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: icon})
                 .bindPopup(`
             <b>${r.name}</b>
@@ -243,8 +267,8 @@ document.addEventListener('DOMContentLoaded', async event => {
                     if (!response.ok) throw new Error(`Http error: ${response.status}`);
                     try {
                         const json = response.json();
-                        console.log(json);
                         console.log('User data updated');
+                        markerFood.setIcon(favoritePin);
                     } catch (e) {
                         console.error('Parse error', e);
                     }
@@ -292,4 +316,4 @@ document.addEventListener('DOMContentLoaded', async event => {
         })
 
     })
-});
+})

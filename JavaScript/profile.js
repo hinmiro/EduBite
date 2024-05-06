@@ -15,15 +15,12 @@ profileForm.classList.add('profileForm');
 document.addEventListener('DOMContentLoaded', async event => {
     event.preventDefault();
     const userToken = localStorage.getItem('token');
-    console.log(userToken);
     if (!userToken) {
         document.querySelector('.content').style.display = 'none';
         document.querySelector('#loginMessage').style.display = 'flex';
     } else {
         document.querySelector('#loginMessage').style.display = 'none';
         const userData = await getProfileData(userToken);
-        console.log(userData);
-        console.log(await constructAvatar(userData.avatar));
         document.querySelector('#name').textContent = userData.username;
         document.querySelector('#email').textContent = userData.email;
         const favouriteRestaurant = await getRestaurant(userData.favouriteRestaurant);
@@ -63,7 +60,6 @@ submitButton.forEach((button) => {
         const hidden = parent.querySelector('.hidden');
         const data = parent.querySelector('.userInput');
         const response = await updateUserData(hidden.value, data.value);
-        console.log(response);
         data.value = '';
         location.reload();
     })
@@ -103,7 +99,6 @@ async function postImage(img) {
 }
 
 async function updateUserData(target, data) {
-    console.log(target, data);
     const payload = {};
 
     switch (target) {
@@ -132,7 +127,6 @@ async function updateUserData(target, data) {
 
     if (!response.ok) throw new Error(`Http error: ${response.status}`);
     try {
-        console.log(await response.json());
         console.log('User data updated!')
     } catch (e) {
         console.error('Parsing error:', e);
@@ -147,13 +141,11 @@ document.querySelector('#uploadAvatarButton').addEventListener('click', async (e
     event.preventDefault();
     if (window.selectedFile) {
         const response = await postImage(window.selectedFile);
-        console.log(response);
     }
 });
 
 imageUpload.addEventListener('change', (event) => {
     const file = event.target.files[0];
-    console.log(URL.createObjectURL(file));
     document.querySelector('#avatar').src = URL.createObjectURL(file);
     window.selectedFile = file;
 });
@@ -167,6 +159,5 @@ async function constructAvatar(avatar) {
 const getRestaurant = async (id) => {
     const response = await fetch(`https://10.120.32.94/restaurant/api/v1/restaurants/${id}`);
     const data = await response.json();
-    console.log(data);
     return data;
 }
