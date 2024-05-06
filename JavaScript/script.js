@@ -169,7 +169,6 @@ document.addEventListener('DOMContentLoaded', async event => {
     event.preventDefault();
     const restaurants = await getRestaurants();
 
-    const favoriteRestaurant = await getFavoriteRestaurant();
 
     const map = L.map('map', {
         maxBounds: [
@@ -230,17 +229,28 @@ document.addEventListener('DOMContentLoaded', async event => {
         const restaurantsByDistance = sortByDistance(restaurants);
         const nearestRestaurant = restaurantsByDistance[0];
 
-        restaurantsByDistance.forEach(r => {
+
+        restaurantsByDistance.forEach(async r => {
             let icon;
-            if (r._id === favoriteRestaurant._id) {
-                icon = favoritePin;
-            } else if (r === nearestRestaurant) {
-                icon = highlightIcon;
+            if (localStorage.getItem('token')) {
+                const favoriteRestaurant = await getFavoriteRestaurant();
+                if (r._id === favoriteRestaurant._id) {
+                    icon = favoritePin;
+                } else if (r === nearestRestaurant) {
+                    icon = highlightIcon;
+                } else {
+                    icon = foodPin;
+                }
             } else {
-                icon = foodPin;
+                if (r === nearestRestaurant) {
+                    icon = highlightIcon;
+                } else {
+                    icon = foodPin;
+                }
             }
-            const markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: icon})
-                .bindPopup(`
+            if (localStorage.getItem('token')) {
+                const markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: icon})
+                    .bindPopup(`
             <b>${r.name}</b>
             <br>${r.address}
             <br>${r.city}
@@ -248,6 +258,16 @@ document.addEventListener('DOMContentLoaded', async event => {
             <br><button id="dailyLink">Daily menu</button>
             <button id="weeklyLink">Weekly menu</button>
             <br>Add to favorite<img src="img/starNoBg.png" id="favoriteIcon" alt="Favorite"/>`).addTo(map);
+            } else {
+                const markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: icon})
+                    .bindPopup(`
+            <b>${r.name}</b>
+            <br>${r.address}
+            <br>${r.city}
+            <br>${r.phone}
+            <br><button id="dailyLink">Daily menu</button>
+            <button id="weeklyLink">Weekly menu</button>`).addTo(map);
+            }
 
 
             markerFood.on('popupopen', async (event) => {
