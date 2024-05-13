@@ -125,6 +125,7 @@ async function getMenu(id) {
 
 function setMenuDaily(daily) {
     document.querySelector('.menuTable').innerHTML = '';
+    console.log('daily');
 
     if (daily.length > 0) {
         daily.forEach(item => {
@@ -248,8 +249,9 @@ document.addEventListener('DOMContentLoaded', async event => {
                     icon = foodPin;
                 }
             }
+            let markerFood;
             if (localStorage.getItem('token')) {
-                const markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: icon})
+                markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: icon})
                     .bindPopup(`
             <b>${r.name}</b>
             <br>${r.address}
@@ -259,7 +261,7 @@ document.addEventListener('DOMContentLoaded', async event => {
             <button id="weeklyLink">Weekly menu</button>
             <br>Add to favorite<img src="img/starNoBg.png" id="favoriteIcon" alt="Favorite"/>`).addTo(map);
             } else {
-                const markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: icon})
+                markerFood = L.marker([r.location.coordinates[1], r.location.coordinates[0]], {icon: icon})
                     .bindPopup(`
             <b>${r.name}</b>
             <br>${r.address}
