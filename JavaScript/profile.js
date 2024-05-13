@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', async event => {
         document.querySelector('#email').textContent = userData.email;
         const favouriteRestaurant = await getRestaurant(userData.favouriteRestaurant);
         document.querySelector('#favoriteRestaurant').textContent = favouriteRestaurant.name;
+        await constructAvatar(userData.avatar);
     }
 });
 

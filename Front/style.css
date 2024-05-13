@@ -34,8 +34,6 @@ body {
     font-family: "Ubuntu", Arial, sans-serif;
     background-image: linear-gradient(0, #FCF6BD, #FF99C8);
     background-size: 100% 300%;
-    height: 150vh;
-    min-height: 100vh;
     margin: 0;
     padding: 0;
 }
@@ -289,7 +287,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    height: 90dvh;
 }
 
 .submitDialog {
@@ -427,7 +425,7 @@ section {
 
 .profileTable {
     border-collapse: collapse;
-    margin-top: auto;
+    margin-top: 1rem;
 }
 
 .profileTable td, .profileTable th {
@@ -493,11 +491,9 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 55vh;
     border-radius: 10px;
     background-color: #a9def9;
     box-shadow: 0px 0px 15px 0px #16425b;
-    margin-top: 2rem;
 }
 
 footer {
@@ -506,7 +502,7 @@ footer {
     background-color: #59bcb6;
     border-radius: 10px;
     border: 1px solid #FF99C8;
-    margin-top: auto;
+    margin-top: 2rem;
     box-shadow: 0px 0px 10px 0px #16425b;
     text-shadow: 0px 2px 2px #333;
     color: white;
